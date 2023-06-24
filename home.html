@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center; /* Center align the buttons */
+            position: relative; /* Add position relative for button positioning */
+        }
+
+        h1 {
+            font-size: 40px;
+            font-weight: normal;
+            color: #333333;
+            text-align: center;
+            margin-top: 0;
+        }
+
+        #banner {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        h2 {
+            font-size: 32px;
+            font-weight: normal;
+            color: #646464;
+            text-align: center;
+        }
+
+        .bodytext {
+            color: #505050;
+            text-align: left;
+        }
+
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 10px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+        }
+
+        .btn {
+            width: 100%;
+            height: 100%;
+            background-color: #87cefa;
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #195190; /* Turkish Blue */
+        }
+
+        .button:nth-child(1) {
+            grid-column: 1 / span 2;
+        }
+
+        .button:nth-child(2),
+        .button:nth-child(4) {
+            grid-column: 1;
+        }
+
+        .button:nth-child(3),
+        .button:nth-child(5) {
+            grid-column: 2;
+        }
+
+        .button i {
+            margin-left: 8px;
+        }
+
+        .contact-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .contact-button button {
+            background-color: #2196f3; /* Default Blue */
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .contact-button button:hover {
+            background-color: #0c7cd5; /* Darker Blue */
+        }
+
+        .login-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .login-button a {
+            display: flex;
+            align-items: center;
+            background-color: #2196f3; /* Default Blue */
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .login-button a:hover {
+            background-color: #0c7cd5; /* Darker Blue */
+        }
+
+        .username {
+            text-align: right;
+            margin-top: 10px;
+            color: #646464;
+        }
+    </style>
+    <script>
+        function openCreateUserWindow() {
+            window.open('create_user.html', '_blank', 'width=400,height=300');
+        }
+    </script>
+</head>
+<body>
+<div id="container">
+    <h1>Mental Health Chatbot</h1>
+    <img id="banner" src="http://127.0.0.1:5000/static/unsplash.jpg" alt="Banner Image">
+    <h2>About Chatbot</h2>
+    <p class="bodytext">
+        Welcome to our website, where we believe in the power of small initiatives to make a big difference in mental
+        health.
+        We're dedicated to showcasing how even the smallest actions can have a profound impact on our well-being.
+        Through informative articles, personal stories, and practical tips, we aim to empower you to take meaningful
+        steps towards a healthier and happier mind.
+        Join us in celebrating the power of small initiatives and discover how they can shape a more supportive and
+        mentally healthy world.
+        Start your journey of personal growth and transformation with us.
+    </p>
+    <div class="button-container">
+        <div class="button">
+            <a href="/chat?username={{ username }}">
+                <button class="btn">Chat with AI <i class="fas fa-robot"></i></button>
+            </a>
+        </div>
+        <div class="button">
+            <form action="/chat_summarization" method="post">
+                <input type="hidden" name="username" value="{{ username }}">
+                <button class="btn" type="submit">Chat Summarization <i class="fas fa-comment-alt"></i></button>
+            </form>
+        </div>
+        <div class="button">
+            <form action="/thought_diary" method="post">
+                <input type="hidden" name="username" value="{{ username }}">
+                <button class="btn" type="submit">Thought Diary <i class="fas fa-book"></i></button>
+            </form>
+        </div>
+        <div class="button">
+            <form action="/recommendations_log" method="post">
+                <input type="hidden" name="username" value="{{ username }}">
+                <button class="btn" type="submit">Recommendations Log <i class="fas fa-list"></i></button>
+            </form>
+        </div>
+        <div class="button">
+            <form action="/mood_tracker" method="post">
+                <input type="hidden" name="username" value="{{ username }}">
+                <button class="btn" type="submit">Mood Tracker <i class="far fa-smile"></i></button>
+            </form>
+        </div>
+    </div>
+    <div class="contact-button">
+        <button onclick="window.location.href='mailto:contact@example.com'">Contact <i class="fas fa-envelope"></i>
+        </button>
+    </div>
+    <div class="login-button">
+        <a href="/login ">Login <i class="fas fa-sign-in-alt"></i></a>
+    </div>
+    {% if message %}
+    <p>{{ message }}</p>
+    {% endif %}
+
+    {% if username %}
+    <div class="username">Welcome, {{ username }}!</div>
+    {% endif %}
+</div>
+</body>
+</html>
